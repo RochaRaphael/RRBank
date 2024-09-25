@@ -1,0 +1,180 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5100"
+  },
+
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/Client/ClientById/{clientId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamPathTemplate": "/api/Client/ClientById/{clientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.client",
+          "Port": 5200
+        }
+      ],
+      "SwaggerKey": "Client"
+    },
+    {
+      "UpstreamPathTemplate": "/Client/ClientList/",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamPathTemplate": "/api/Client/ClientList/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.client",
+          "Port": 5200
+        }
+      ],
+      "SwaggerKey": "Client"
+    },
+    {
+      "UpstreamPathTemplate": "/Client/AddClient/",
+      "UpstreamHttpMethod": [ "POST" ],
+      "DownstreamPathTemplate": "/api/Client/AddClient/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.client",
+          "Port": 5200
+        }
+      ],
+      "SwaggerKey": "Client"
+    },
+    {
+      "UpstreamPathTemplate": "/Client/Update/{clientId}",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "DownstreamPathTemplate": "/api/Client/Update/{clientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.client",
+          "Port": 5200
+        }
+      ],
+      "SwaggerKey": "Client"
+    },
+    {
+      "UpstreamPathTemplate": "/Client/Delete/{clientId}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "DownstreamPathTemplate": "/api/Client/Delete/{clientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.client",
+          "Port": 5200
+        }
+      ],
+      "SwaggerKey": "Client"
+    },
+    {
+      "UpstreamPathTemplate": "/Manager/ManagerById/{clientId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamPathTemplate": "/api/Manager/ManagerById/{clientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.manager",
+          "Port": 5300
+        }
+      ],
+      "SwaggerKey": "Manager"
+    },
+    {
+      "UpstreamPathTemplate": "/Manager/ManagerList/",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamPathTemplate": "/api/Manager/ManagerList/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.manager",
+          "Port": 5300
+        }
+      ],
+      "SwaggerKey": "Manager"
+    },
+    {
+      "UpstreamPathTemplate": "/Manager/AddManager/",
+      "UpstreamHttpMethod": [ "POST" ],
+      "DownstreamPathTemplate": "/api/Manager/AddManager/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.manager",
+          "Port": 5300
+        }
+      ],
+      "SwaggerKey": "Manager"
+    },
+    {
+      "UpstreamPathTemplate": "/Manager/Update/{managerId}",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "DownstreamPathTemplate": "/api/Manager/Update/{managerId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.manager",
+          "Port": 5300
+        }
+      ],
+      "SwaggerKey": "Manager"
+    },
+    {
+      "UpstreamPathTemplate": "/Manager/Delete/{managerId}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "DownstreamPathTemplate": "/api/Manager/Delete/{managerId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.manager",
+          "Port": 5300
+        }
+      ],
+      "SwaggerKey": "Manager"
+    },
+    {
+      "UpstreamPathTemplate": "/Manager/CreateAccount/{clientId}",
+      "UpstreamHttpMethod": [ "POST" ],
+      "DownstreamPathTemplate": "/api/Manager/CreateAccount/{clientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rrbank.manager",
+          "Port": 5300
+        }
+      ],
+      "SwaggerKey": "Manager"
+    }
+  ],
+
+
+
+
+
+
+
+  "SwaggerEndPoints": [
+    {
+      "Key": "Client",
+      "Config": [
+        {
+          "Name": "API Client",
+          "Version": "v1",
+          "Url": "http://rrbank.client:5200/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "Manager",
+      "Config": [
+        {
+          "Name": "API Manager",
+          "Version": "v1",
+          "Url": "http://rrbank.manager:5300/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+}

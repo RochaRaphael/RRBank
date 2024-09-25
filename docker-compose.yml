@@ -1,0 +1,66 @@
+version: '3.4'
+
+services:
+  rrbank.gateway:
+    image: ${DOCKER_REGISTRY-}rrbankgateway
+    build:
+      context: .
+      dockerfile: RRBank.Gateway/Dockerfile
+    ports:
+      - "8084:5100"
+    networks:
+      - rrbank-network
+    depends_on:
+      - sqlServerDb
+
+  rrbank.client:
+    image: ${DOCKER_REGISTRY-}rrbankclient
+    hostname: rrbank.client
+    build:
+      context: .
+      dockerfile: RRBank.Client/Dockerfile
+    ports:
+      - "8082:5200"
+    networks:
+      - rrbank-network
+    depends_on:
+      - sqlServerDb
+
+  rrbank.manager:
+    image: ${DOCKER_REGISTRY-}rrbankmanager
+    hostname: rrbank.manager
+    build:
+      context: .
+      dockerfile: RRBank.Manager/Dockerfile
+    ports:
+      - "8086:5300"
+    networks:
+      - rrbank-network
+    depends_on:
+      - sqlServerDb
+
+  sqlServerDb:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "1q2w3e4r@#$"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    # volumes:
+    #   - sqlserver-data:/var/opt/mssql
+    networks:
+      - rrbank-network
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - rrbank-network
+
+networks:
+  rrbank-network:
+    driver: bridge
+
+# volumes:
+#   sqlserver-data:
