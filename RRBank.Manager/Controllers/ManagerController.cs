@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RRBank.Application.Model.ModelIn;
 using RRBank.Application.Services;
-using RRBank.Application.ViewModel;
 
 namespace RRBank.Manager.Controllers
 {
@@ -35,7 +35,7 @@ namespace RRBank.Manager.Controllers
         }
 
         [HttpPost("AddManager/")]
-        public async Task<IActionResult> AddManager(NewManagerViewModel newManager)
+        public async Task<IActionResult> AddManager(AddManagerIn newManager)
         {
             var result = await _service.AddManagerAsync(newManager);
             if (!result.Success)
@@ -47,7 +47,7 @@ namespace RRBank.Manager.Controllers
         [HttpPut("Update/{managerId:int}")]
         public async Task<IActionResult> Update(
             [FromRoute] int managerId,
-            [FromBody] UpdateManagerViewModel newManager)
+            [FromBody] UpdateManagerIn newManager)
         {
             var result = await _service.UpdateManagerAsync(newManager, managerId);
             if (!result.Success)

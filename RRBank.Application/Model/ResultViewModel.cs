@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RRBank.Application.ViewModel
+namespace RRBank.Application.Model
 {
     public class ResultViewModel<T>
     {

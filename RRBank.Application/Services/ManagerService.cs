@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RRBank.Application.Model;
+using RRBank.Application.Model.ModelIn;
 using RRBank.Application.Services.Caching;
-using RRBank.Application.ViewModel;
 using RRBank.Domain.Database;
 using RRBank.Infra;
 using System;
@@ -62,7 +63,7 @@ namespace RRBank.Application.Services
 
         }
 
-        public async Task<ResultViewModel<Manager>> AddManagerAsync(NewManagerViewModel newManager)
+        public async Task<ResultViewModel<Manager>> AddManagerAsync(AddManagerIn newManager)
         {
             try
             {
@@ -88,7 +89,7 @@ namespace RRBank.Application.Services
             }
         }
 
-        public async Task<ResultViewModel<Manager>> UpdateManagerAsync(UpdateManagerViewModel newManager, int id)
+        public async Task<ResultViewModel<Manager>> UpdateManagerAsync(UpdateManagerIn newManager, int id)
         {
             try
             {

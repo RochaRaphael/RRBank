@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RRBank.Application.ViewModel
+namespace RRBank.Application.Model.ModelIn
 {
-    public class NewClientViewModel
+    public class AddManagerIn
     {
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -15,7 +15,5 @@ namespace RRBank.Application.ViewModel
         public int Age { get; set; }
         [EmailAddress(ErrorMessage = "The field {0} is invalid")]
         public string Email { get; set; }
-        public string CelNumber { get; set; }
-        public int ManagerId { get; set; }
     }
 }

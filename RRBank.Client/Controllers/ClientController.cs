@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RRBank.Application.Services;
 using RRBank.Domain.Database;
-using RRBank.Application.ViewModel;
+using RRBank.Application.Model.ModelIn;
+using Azure.Core;
 
 namespace RRBank.Client.Controllers
 {
@@ -35,8 +36,24 @@ namespace RRBank.Client.Controllers
             return Ok(result);
         }
 
+        [HttpGet("ClientListPaginated/{page:int}/{pageSize:int}/{search:string?}")]
+        public async Task<IActionResult> ClientListPaginated([FromRoute] int page, int pageSize, string? search)
+        {
+            var request = new ClientListPaginatedIn
+            {
+                Page = page,
+                PageSize = pageSize,
+                Search = search
+            };
+            var result = await _service.ClientListPaginatedAsync(request);
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
         [HttpPost("AddClient/")]
-        public async Task<IActionResult> AddClient(NewClientViewModel newClient)
+        public async Task<IActionResult> AddClient(AddClientIn newClient)
         {
             var result = await _service.AddClientAsync(newClient);
             if (!result.Success)
@@ -48,7 +65,7 @@ namespace RRBank.Client.Controllers
         [HttpPut("Update/{clientId:int}")]
         public async Task<IActionResult> Update(
             [FromRoute] int clientId,
-            [FromBody] UpdateClientViewModel newClient)
+            [FromBody] UpdateClientIn newClient)
         {
             var result = await _service.UpdateClientAsync(newClient, clientId);
             if (!result.Success)

@@ -30,6 +30,19 @@
       ],
       "SwaggerKey": "Client"
     },
+    //{
+    //  "UpstreamPathTemplate": "/Client/ClientListPaginated/{page}/{pageSize}/{search?}",
+    //  "UpstreamHttpMethod": [ "GET" ],
+    //  "DownstreamPathTemplate": "/api/Client/ClientListPaginated/{page}/{pageSize}/{search?}",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "rrbank.client",
+    //      "Port": 5200
+    //    }
+    //  ],
+    //  "SwaggerKey": "Client"
+    //},
     {
       "UpstreamPathTemplate": "/Client/AddClient/",
       "UpstreamHttpMethod": [ "POST" ],

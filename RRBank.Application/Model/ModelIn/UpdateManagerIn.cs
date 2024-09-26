@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RRBank.Application.ViewModel
+namespace RRBank.Application.Model.ModelIn
 {
-    public class UpdateClientViewModel
+    public class UpdateManagerIn
     {
         public string? Name { get; set; }
         public string? LastName { get; set; }
         public string? Email { get; set; }
-        public string? CelNumber { get; set; }
     }
 }

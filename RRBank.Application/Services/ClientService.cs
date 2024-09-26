@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
+using RRBank.Application.Model;
+using RRBank.Application.Model.ModelIn;
+using RRBank.Application.Model.ModelOut;
 using RRBank.Application.Services.Caching;
-using RRBank.Application.ViewModel;
 using RRBank.Domain.Database;
 using RRBank.Infra;
+using System.Linq;
 
 namespace RRBank.Application.Services
 {
@@ -57,7 +61,47 @@ namespace RRBank.Application.Services
            
         }
 
-        public async Task<ResultViewModel<Client>> AddClientAsync(NewClientViewModel newClient)
+        public async Task<ResultViewModel<ClientListPaginatedOut>> ClientListPaginatedAsync(ClientListPaginatedIn request)
+        {
+            try
+            {
+                var ret = new ClientListPaginatedOut();
+                var queryAble = context.Clients.Where(x => x.IsActive == true).AsQueryable();
+
+                if(!string.IsNullOrWhiteSpace(request.Search))
+                    queryAble = queryAble.Where(w => w.Name.Contains(request.Search) || w.LastName.Contains(request.Search));
+
+                ret.ClientList = await queryAble
+                    .OrderBy(x => x.Name)
+                    .Skip(request.PageSize * (request.Page - 1))
+                    .Take(request.PageSize)
+                    .Select(x => new Client
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        LastName = x.LastName,
+                        Age = x.Age,
+                        Email = x.Email,
+                        CelNumber = x.CelNumber
+                    })
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                ret.Page = request.Page;
+                ret.PageSize = request.PageSize;
+                ret.Total = await queryAble.CountAsync();
+                ret.TotalPages = (int)Math.Ceiling((double)ret.Total / request.PageSize);
+                return new ResultViewModel<ClientListPaginatedOut>(ret);
+            }
+            catch (Exception ex)
+            {
+                return new ResultViewModel<ClientListPaginatedOut>("10X22 - Server failure");
+                throw;
+            }
+
+        }
+
+        public async Task<ResultViewModel<Client>> AddClientAsync(AddClientIn newClient)
         {
             try
             {
@@ -92,7 +136,7 @@ namespace RRBank.Application.Services
             }
         }
 
-        public async Task<ResultViewModel<Client>> UpdateClientAsync(UpdateClientViewModel newClient, int id)
+        public async Task<ResultViewModel<Client>> UpdateClientAsync(UpdateClientIn newClient, int id)
         {
             try
             {
