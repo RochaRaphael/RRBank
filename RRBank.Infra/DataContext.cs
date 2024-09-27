@@ -16,6 +16,7 @@ namespace RRBank.Infra
         public DbSet<Client> Clients { get; set; }
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<RequestCancellation> RequestCancellation { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

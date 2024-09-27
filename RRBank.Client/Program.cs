@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using RRBank.Application.Services;
 using RRBank.Application.Services.Caching;
 using RRBank.Infra;
+using RRBank.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +26,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ClientService>();
 builder.Services.AddScoped<ICachingService, CachingService>();
+builder.Services.AddRabbitMQService();
 
 builder.Services.AddStackExchangeRedisCache(x =>
 {

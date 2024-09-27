@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using RRBank.Application.Model;
 using RRBank.Application.Model.ModelIn;
@@ -14,10 +15,12 @@ namespace RRBank.Application.Services
     {
         private readonly DataContext context;
         private readonly ICachingService cache;
-        public ClientService(DataContext context, ICachingService cache)
+        private readonly IBus bus;
+        public ClientService(DataContext context, ICachingService cache, IBus bus)
         {
             this.context = context;
             this.cache = cache; 
+            this.bus = bus;
         }
 
         public async Task<ResultViewModel<Client>> GetClientByIdAsync(int id)
@@ -36,7 +39,6 @@ namespace RRBank.Application.Services
             catch (Exception ex)
             {
                 return new ResultViewModel<Client>("10X22 - Server failure");
-                throw;
             }
 
         }
@@ -56,25 +58,24 @@ namespace RRBank.Application.Services
             catch (Exception ex)
             {
                 return new ResultViewModel<List<Client>>("10X22 - Server failure");
-                throw;
             }
            
         }
 
-        public async Task<ResultViewModel<ClientListPaginatedOut>> ClientListPaginatedAsync(ClientListPaginatedIn request)
+        public async Task<ResultViewModel<ClientListPaginatedOut>> ClientListPaginatedAsync(int page, int pageSize, string? search)
         {
             try
             {
                 var ret = new ClientListPaginatedOut();
                 var queryAble = context.Clients.Where(x => x.IsActive == true).AsQueryable();
 
-                if(!string.IsNullOrWhiteSpace(request.Search))
-                    queryAble = queryAble.Where(w => w.Name.Contains(request.Search) || w.LastName.Contains(request.Search));
+                if(!string.IsNullOrWhiteSpace(search))
+                    queryAble = queryAble.Where(w => w.Name.Contains(search) || w.LastName.Contains(search));
 
                 ret.ClientList = await queryAble
                     .OrderBy(x => x.Name)
-                    .Skip(request.PageSize * (request.Page - 1))
-                    .Take(request.PageSize)
+                    .Skip(pageSize * (page - 1))
+                    .Take(pageSize)
                     .Select(x => new Client
                     {
                         Id = x.Id,
@@ -87,16 +88,15 @@ namespace RRBank.Application.Services
                     .AsNoTracking()
                     .ToListAsync();
 
-                ret.Page = request.Page;
-                ret.PageSize = request.PageSize;
+                ret.Page = page;
+                ret.PageSize = pageSize;
                 ret.Total = await queryAble.CountAsync();
-                ret.TotalPages = (int)Math.Ceiling((double)ret.Total / request.PageSize);
+                ret.TotalPages = (int)Math.Ceiling((double)ret.Total / pageSize);
                 return new ResultViewModel<ClientListPaginatedOut>(ret);
             }
             catch (Exception ex)
             {
                 return new ResultViewModel<ClientListPaginatedOut>("10X22 - Server failure");
-                throw;
             }
 
         }
@@ -132,7 +132,6 @@ namespace RRBank.Application.Services
             catch (Exception ex)
             {
                 return new ResultViewModel<Client>("00X53 - Server failure");
-                throw;
             }
         }
 
@@ -154,7 +153,6 @@ namespace RRBank.Application.Services
             catch (Exception ex)
             {
                 return new ResultViewModel<Client>("43X53 - Server failure");
-                throw;
             }
         }
 
@@ -173,7 +171,37 @@ namespace RRBank.Application.Services
             catch (Exception ex)
             {
                 return new ResultViewModel<Client>("10X57 - Server failure");
-                throw;
+            }
+        }
+
+        public async Task<ResultViewModel<RequestCancellation>> RequestCancellationAsync(int id)
+        {
+            try
+            {
+                var client = await context.Clients.FirstOrDefaultAsync(x => x.Id == id);
+
+                if(client == null) return new ResultViewModel<RequestCancellation>("80X57 - Client not found");
+               
+                var request = new RequestCancellation
+                {
+                    Id = Guid.NewGuid(),
+                    ClientId = id,
+                    Name = client.Name,
+                    Document = client.Document,
+                    Status = 1
+                };
+
+                var eventRequest = new RequestCancellationEvent(request.Id, request.Name);
+                await bus.Publish(eventRequest);
+
+                await context.RequestCancellation.AddAsync(request);
+                await context.SaveChangesAsync();
+
+                return new ResultViewModel<RequestCancellation>(request);
+            }
+            catch (Exception ex)
+            {
+                return new ResultViewModel<RequestCancellation>("10X57 - Server failure");
             }
         }
     }

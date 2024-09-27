@@ -31,29 +31,35 @@ namespace RRBank.Infra.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("DECIMAL(18, 2)")
+                        .HasColumnName("Balance");
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("BIT")
+                        .HasColumnName("IsActive");
 
                     b.Property<string>("Number")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("VARCHAR")
+                        .HasColumnName("Number");
 
                     b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("UpdateAt");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Account");
+                    b.ToTable("Account", (string)null);
                 });
 
             modelBuilder.Entity("RRBank.Domain.Database.Client", b =>
@@ -167,13 +173,44 @@ namespace RRBank.Infra.Migrations
                     b.ToTable("Manager", (string)null);
                 });
 
+            modelBuilder.Entity("RRBank.Domain.Database.RequestCancellation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ProcessedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("RequestCancellation");
+                });
+
             modelBuilder.Entity("RRBank.Domain.Database.Account", b =>
                 {
                     b.HasOne("RRBank.Domain.Database.Client", "Client")
                         .WithMany("Accounts")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Client_Accounts");
 
                     b.Navigation("Client");
                 });
@@ -190,9 +227,22 @@ namespace RRBank.Infra.Migrations
                     b.Navigation("Manager");
                 });
 
+            modelBuilder.Entity("RRBank.Domain.Database.RequestCancellation", b =>
+                {
+                    b.HasOne("RRBank.Domain.Database.Client", "Client")
+                        .WithMany("RequestCancellation")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("RRBank.Domain.Database.Client", b =>
                 {
                     b.Navigation("Accounts");
+
+                    b.Navigation("RequestCancellation");
                 });
 
             modelBuilder.Entity("RRBank.Domain.Database.Manager", b =>

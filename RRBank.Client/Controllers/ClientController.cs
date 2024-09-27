@@ -36,16 +36,20 @@ namespace RRBank.Client.Controllers
             return Ok(result);
         }
 
-        [HttpGet("ClientListPaginated/{page:int}/{pageSize:int}/{search:string?}")]
-        public async Task<IActionResult> ClientListPaginated([FromRoute] int page, int pageSize, string? search)
+        [HttpGet("ClientListPaginated/{page:int}/{pageSize:int}/")]
+        public async Task<IActionResult> ClientListPaginated([FromRoute] int page, int pageSize)
         {
-            var request = new ClientListPaginatedIn
-            {
-                Page = page,
-                PageSize = pageSize,
-                Search = search
-            };
-            var result = await _service.ClientListPaginatedAsync(request);
+            var result = await _service.ClientListPaginatedAsync(page, pageSize, null);
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpGet("ClientListPaginated/{page:int}/{pageSize:int}/{search}")]
+        public async Task<IActionResult> ClientListPaginated([FromRoute] int page, int pageSize, string search)
+        {
+            var result = await _service.ClientListPaginatedAsync(page, pageSize, search);
             if (!result.Success)
                 return BadRequest(result);
 
@@ -79,6 +83,16 @@ namespace RRBank.Client.Controllers
             [FromRoute] int clientId)
         {
             var result = await _service.DeleteClientAsync(clientId);
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("RequestCancellation/{clientId:int}")]
+        public async Task<IActionResult> RequestCancellation(int clientId)
+        {
+            var result = await _service.RequestCancellationAsync(clientId);
             if (!result.Success)
                 return BadRequest(result);
 

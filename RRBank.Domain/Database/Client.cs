@@ -24,6 +24,9 @@ namespace RRBank.Domain.Database
 
         [JsonIgnore]
         public Manager Manager { get; set; }
+        [JsonIgnore]
         public List<Account> Accounts { get; set; }
+        [JsonIgnore]
+        public List<RequestCancellation> RequestCancellation { get; set; }
     }
 }
