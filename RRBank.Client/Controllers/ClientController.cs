@@ -20,6 +20,7 @@ namespace RRBank.Client.Controllers
         public async Task<IActionResult> ClientList(int clientId)
         {
             var result = await _service.GetClientByIdAsync(clientId);
+
             if (!result.Success)
                 return BadRequest(result);
 

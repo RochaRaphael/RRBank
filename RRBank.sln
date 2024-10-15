@@ -27,6 +27,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RRBank.Application", "RRBan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RRBank.Migrations.cs", "RRBank.Migrations.cs\RRBank.Migrations.cs.csproj", "{62F53F06-7C10-4F85-8D85-F2E81607AD25}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Tests", "4 - Tests", "{55236A11-A8CF-4D78-A33B-0E4E2C3138EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RRBank.Testes", "RRBank.Testes\RRBank.Testes.csproj", "{CE497CE4-2154-4F8F-BC3F-CE2A92A2F80C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,10 @@ Global
 		{62F53F06-7C10-4F85-8D85-F2E81607AD25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62F53F06-7C10-4F85-8D85-F2E81607AD25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62F53F06-7C10-4F85-8D85-F2E81607AD25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE497CE4-2154-4F8F-BC3F-CE2A92A2F80C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE497CE4-2154-4F8F-BC3F-CE2A92A2F80C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE497CE4-2154-4F8F-BC3F-CE2A92A2F80C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE497CE4-2154-4F8F-BC3F-CE2A92A2F80C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +86,7 @@ Global
 		{23995F0E-46C5-4A31-B18E-973452D41388} = {55C08D9A-F654-4134-9E02-E284095129DE}
 		{6B28962C-55BE-409C-B3E2-0A9406FAAF11} = {E246F544-0324-4B32-9001-EF124C12E113}
 		{62F53F06-7C10-4F85-8D85-F2E81607AD25} = {517EA0CA-90E5-4717-9229-A7B33A89748B}
+		{CE497CE4-2154-4F8F-BC3F-CE2A92A2F80C} = {55236A11-A8CF-4D78-A33B-0E4E2C3138EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9FF797F5-F2B2-45E1-A7F9-FEC85977D41B}

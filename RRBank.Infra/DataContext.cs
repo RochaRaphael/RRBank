@@ -9,14 +9,15 @@ namespace RRBank.Infra
 {
     public class DataContext : DbContext
     {
+        public DataContext() { } // Parameterless constructor, useful for mocking
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         {
         }
-        public DbSet<Client> Clients { get; set; }
-        public DbSet<Manager> Managers { get; set; }
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<RequestCancellation> RequestCancellation { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Manager> Managers { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<RequestCancellation> RequestCancellation { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
