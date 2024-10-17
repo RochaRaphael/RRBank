@@ -47,6 +47,6 @@ dotnet ef database update
 ## Serviços Internos
 O projeto conta com dois serviços adicionais que são utilizados em algumas operações:
 
-Redis: Usado como cache para armazenar dados de clientes em memória e acelerar consultas repetidas.
-RabbitMQ: Usado para comunicação assíncrona entre os serviços, especialmente para tarefas que envolvem filas de mensagens.
+###Redis: Usado como cache para armazenar dados de clientes em memória e acelerar consultas repetidas.
+###RabbitMQ: Usado para comunicação assíncrona entre os serviços, especialmente para tarefas que envolvem filas de mensagens.
 Ambos os serviços estão configurados no Docker Compose e serão automaticamente provisionados na execução do comando docker-compose up.
