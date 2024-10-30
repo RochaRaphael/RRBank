@@ -31,9 +31,9 @@
       "SwaggerKey": "Client"
     },
     {
-      "UpstreamPathTemplate": "/Client/ClientListPaginated/{page}/{pageSize}/",
+      "UpstreamPathTemplate": "/Client/ClientListPaginated/",
       "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamPathTemplate": "/api/Client/ClientListPaginated/{page}/{pageSize}/",
+      "DownstreamPathTemplate": "/api/Client/ClientListPaginated/",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

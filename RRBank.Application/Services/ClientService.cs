@@ -101,6 +101,57 @@ namespace RRBank.Application.Services
 
         }
 
+        public async Task<ResultViewModel<ClientListPaginatedOut>> ClientListPaginatedAsync(ClientListPaginatedIn request)
+        {
+            try
+            {
+                var ret = new ClientListPaginatedOut();
+
+                var queryAble = context.Clients
+                    .Where(x => x.IsActive == true)
+                    .AsQueryable();
+
+                if (!string.IsNullOrWhiteSpace(request.Search))
+                {
+                    queryAble = queryAble.Where(w =>
+                        w.Name.Contains(request.Search) ||
+                        w.LastName.Contains(request.Search));
+                }
+
+                if (request.LastClientId.HasValue) 
+                {
+                    queryAble = queryAble.Where(x => x.Id > request.LastClientId.Value);
+                }
+
+                ret.ClientList = await queryAble
+                    .OrderBy(x => x.Name)
+                    .ThenBy(x => x.Id)
+                    .Take(request.PageSize)
+                    .Select(x => new Client
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        LastName = x.LastName,
+                        Age = x.Age,
+                        Email = x.Email,
+                        CelNumber = x.CelNumber
+                    })
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                ret.PageSize = request.PageSize;
+                ret.LastClientId = ret.ClientList.LastOrDefault()?.Id; 
+                ret.Total = await queryAble.CountAsync(); 
+                ret.TotalPages = (int)Math.Ceiling((double)ret.Total / request.PageSize);
+
+                return new ResultViewModel<ClientListPaginatedOut>(ret);
+            }
+            catch (Exception ex)
+            {
+                return new ResultViewModel<ClientListPaginatedOut>("10X22 - Server failure");
+            }
+        }
+
         public async Task<ResultViewModel<Client>> AddClientAsync(AddClientIn newClient)
         {
             try

@@ -13,6 +13,7 @@ namespace RRBank.Application.Model.ModelOut
         public int TotalPages { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
+        public int? LastClientId { get; set; }
         public List<Client> ClientList { get; set; } = new List<Client>();
     }
 }

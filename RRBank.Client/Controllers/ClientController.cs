@@ -37,20 +37,10 @@ namespace RRBank.Client.Controllers
             return Ok(result);
         }
 
-        [HttpGet("ClientListPaginated/{page:int}/{pageSize:int}/")]
-        public async Task<IActionResult> ClientListPaginated([FromRoute] int page, int pageSize)
+        [HttpGet("ClientListPaginated")]
+        public async Task<IActionResult> ClientListPaginated([FromQuery] ClientListPaginatedIn request)
         {
-            var result = await _service.ClientListPaginatedAsync(page, pageSize, null);
-            if (!result.Success)
-                return BadRequest(result);
-
-            return Ok(result);
-        }
-
-        [HttpGet("ClientListPaginated/{page:int}/{pageSize:int}/{search}")]
-        public async Task<IActionResult> ClientListPaginated([FromRoute] int page, int pageSize, string search)
-        {
-            var result = await _service.ClientListPaginatedAsync(page, pageSize, search);
+            var result = await _service.ClientListPaginatedAsync(request);
             if (!result.Success)
                 return BadRequest(result);
 
