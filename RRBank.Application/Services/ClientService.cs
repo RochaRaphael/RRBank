@@ -46,6 +46,7 @@ namespace RRBank.Application.Services
         {
             try
             {
+                
                 var clientCache = await cache.GetListAsync<Client>("clients");
                 if (clientCache.Count() != 0)
                     return new ResultViewModel<List<Client>>(clientCache);
@@ -180,7 +181,7 @@ namespace RRBank.Application.Services
 
                 return new ResultViewModel<Client>(client);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new ResultViewModel<Client>("10X57 - Server failure");
             }
@@ -211,7 +212,7 @@ namespace RRBank.Application.Services
 
                 return new ResultViewModel<RequestCancellation>(request);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return new ResultViewModel<RequestCancellation>("10X57 - Server failure");
             }
