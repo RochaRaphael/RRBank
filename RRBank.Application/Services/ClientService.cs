@@ -56,7 +56,7 @@ namespace RRBank.Application.Services
 
                 return new ResultViewModel<List<Client>>(ret);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new ResultViewModel<List<Client>>("10X22 - Server failure");
             }
