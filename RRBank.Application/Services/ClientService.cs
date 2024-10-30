@@ -108,7 +108,7 @@ namespace RRBank.Application.Services
 
                 return new ResultViewModel<ClientListPaginatedOut>(ret);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new ResultViewModel<ClientListPaginatedOut>("10X22 - Server failure");
             }
