@@ -62,45 +62,6 @@ namespace RRBank.Application.Services
            
         }
 
-        public async Task<ResultViewModel<ClientListPaginatedOut>> ClientListPaginatedAsync(int page, int pageSize, string? search)
-        {
-            try
-            {
-                var ret = new ClientListPaginatedOut();
-                var queryAble = context.Clients.Where(x => x.IsActive == true).AsQueryable();
-
-                if(!string.IsNullOrWhiteSpace(search))
-                    queryAble = queryAble.Where(w => w.Name.Contains(search) || w.LastName.Contains(search));
-
-                ret.ClientList = await queryAble
-                    .OrderBy(x => x.Name)
-                    .Skip(pageSize * (page - 1))
-                    .Take(pageSize)
-                    .Select(x => new Client
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        LastName = x.LastName,
-                        Age = x.Age,
-                        Email = x.Email,
-                        CelNumber = x.CelNumber
-                    })
-                    .AsNoTracking()
-                    .ToListAsync();
-
-                ret.Page = page;
-                ret.PageSize = pageSize;
-                ret.Total = await queryAble.CountAsync();
-                ret.TotalPages = (int)Math.Ceiling((double)ret.Total / pageSize);
-                return new ResultViewModel<ClientListPaginatedOut>(ret);
-            }
-            catch (Exception ex)
-            {
-                return new ResultViewModel<ClientListPaginatedOut>("10X22 - Server failure");
-            }
-
-        }
-
         public async Task<ResultViewModel<ClientListPaginatedOut>> ClientListPaginatedAsync(ClientListPaginatedIn request)
         {
             try
