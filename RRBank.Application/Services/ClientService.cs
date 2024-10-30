@@ -38,7 +38,7 @@ namespace RRBank.Application.Services
             }
             catch (Exception ex)
             {
-                return new ResultViewModel<Client>("10X22 - Server failure");
+                return new ResultViewModel<Client>("10X225 - Server failure");
             }
 
         }
